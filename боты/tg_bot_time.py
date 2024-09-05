@@ -1,13 +1,14 @@
 import asyncio
 import logging
+import config
 from aiogram import Bot, Dispatcher, types, F, Router
 from aiogram.types import ChatJoinRequest, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.client.session.aiohttp import AiohttpSession
 
-session = AiohttpSession(proxy="http://proxy.server:3128")
-BOT_TOKEN = '6811483638:AAG8Pkbg8U_GQjLJgZqo532_8OPWytcslgg'
-CHANNEL_ID = -1002188532673
+
+
+BOT_TOKEN = config.token
+CHANNEL_ID = config.id
 tasks = {}
 async def send_periodic_messages(bot: Bot, user_id: int, text: str, interval: int):
     while True:

@@ -7,7 +7,7 @@ from aiogram.types import CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.client.session.aiohttp import AiohttpSession
 
-API_TOKEN = '6769257052:AAHRa7eTuld3bqGBOnPf0R0fIF3qrJyQ5YY'
+API_TOKEN = config.token
 session = AiohttpSession(proxy="http://proxy.server:3128")
 
 logging.basicConfig(level=logging.INFO)
@@ -16,7 +16,7 @@ bot = Bot(token=API_TOKEN, session=session)
 dp = Dispatcher()
 router = Router()
 
-JSON_FILE = '/home/aaaaaangelina567/ff/users.json'
+JSON_FILE = config.file
 
 try:
     with open(JSON_FILE, 'r') as file:

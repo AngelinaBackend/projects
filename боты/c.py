@@ -8,7 +8,7 @@ from aiogram.client.session.aiohttp import AiohttpSession
 
 
 session = AiohttpSession(proxy="http://proxy.server:3128")
-Token = ("749179398:AGnQg1vjLwH_FUsuHJ1eoIizh9s")
+Token = config.token
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=Token, session=session)

@@ -1,6 +1,6 @@
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
-from config import token
+import config
 import re
 import asyncio
 import logging
@@ -10,13 +10,15 @@ import os
 
 logging.basicConfig(level=logging.INFO)
 
+Token = config.token
+
 DATA_FILE = 'data.json'
 
-bot = Bot(token=token)
+bot = Bot(token=Token)
 dp = Dispatcher()
 
 def load_data():
-    #Загрузка данных из файла или создание нового словаря, если файл не существует.
+
     if os.path.exists(DATA_FILE):
         try:
             with open(DATA_FILE, 'r') as f:
@@ -27,7 +29,7 @@ def load_data():
     return {'users': {}}
 
 def save_data(data):
-    #Сохранение данных в файл
+
     try:
         with open(DATA_FILE, 'w') as f:
             json.dump(data, f, indent=4)
@@ -49,17 +51,18 @@ async def start_handler(msg: types.Message):
         await msg.reply("Ваша учетная запись настроена для получения оповещений.\n Команды: /key")
     else:
         await msg.reply("Ваша учетная запись уже настроена.")
-        #Дополнительная информация о командах
+
     commands_info = (
-        "Доступные команды:\n"
-        "/start - Настроить учетную запись.\n"
-        "/addchat - Добавить текущий чат в список мониторинга.\n"
-        "/removechat - Удалить текущий чат из списка мониторинга.\n"
-        "/listchats - Показать чаты, которые вы мониторите.\n"
-        "/keywords - Управление ключевыми словами.\n"
-        "  /keywords add <Ключевое слово> - Добавить ключевое слово.\n"
-        "  /keywords remove <Ключевое слово> - Удалить ключевое слово.\n"
-        "  /keywords list - Показать все ключевые слова."
+        """Доступные команды:
+        
+    /start - Настроить учетную запись.
+    /addchat - Добавить текущий чат в список мониторинга.
+    /removechat - Удалить текущий чат из списка мониторинга.
+    /listchats - Показать чаты, которые вы мониторите.
+    /keywords - Управление ключевыми словами.
+    /keywords add <Ключевое слово> - Добавить ключевое слово.
+    /keywords remove <Ключевое слово> - Удалить ключевое слово.
+    /keywords list - Показать все ключевые слова."""
     )
 
     await msg.reply(commands_info)
@@ -172,8 +175,7 @@ async def message_handler(msg: types.Message):
                         )
                     except Exception as e:
                         logging.error(f"Ошибка при отправке сообщения пользователю {user_id}: {e}")
-                    break
-# Основная функция для запуска бота
+
 async def main():
     await dp.start_polling(bot)
 

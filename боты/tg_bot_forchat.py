@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import config
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.filters.chat_member_updated import ChatMemberUpdatedFilter, ADMINISTRATOR
@@ -9,7 +10,8 @@ from aiogram.client.session.aiohttp import AiohttpSession
 
 session = AiohttpSession(proxy="http://proxy.server:3128")
 
-Token = '727553617:AABGCrMGVXTi-9H82mL_q35bsH5sM'
+Token = config.token
+
 
 
 logging.basicConfig(level=logging.INFO)
@@ -46,11 +48,11 @@ async def welcome_message(message: types.Message):
 
 @dp.my_chat_member(ChatMemberUpdatedFilter(member_status_changed=ADMINISTRATOR))
 async def on_bot_became_admin(event: types.ChatMemberUpdated):
-    await event.answer(text="Спасибо, что добавил меня в чат!\n "
-                            "Что я умею:\n/warn - предупреждение\n "
-                            "/unwarn - снятие предупреждения\n "
-                            "/ban - забанить пользователя\n "
-                            "/unban - разбанить")
+    await event.answer(text="""Спасибо, что добавил меня в чат!
+                            Что я умею: /warn - предупреждение
+                            /unwarn - снятие предупреждения
+                            /ban - забанить пользователя
+                            /unban - разбанить""")
 
 @dp.message(Command('warn'))
 async def warn_user(message: types.Message):
@@ -129,6 +131,7 @@ async def remove_warn(message: types.Message):
 
 @dp.message()
 async def handle_message(message: types.Message):
+
 #Удаление сообщений от забаненных пользователей
     if (message.from_user.id, message.chat.id) in banned_users:
         await message.delete()
