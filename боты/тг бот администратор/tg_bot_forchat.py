@@ -6,9 +6,9 @@ from aiogram.filters import Command
 from aiogram.filters.chat_member_updated import ChatMemberUpdatedFilter, ADMINISTRATOR
 from collections import defaultdict
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram.client.session.aiohttp import AiohttpSession
 
-session = AiohttpSession(proxy="http://proxy.server:3128")
+
+
 
 Token = config.token
 
@@ -16,18 +16,18 @@ Token = config.token
 
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token=Token, session=session)
+bot = Bot(token=Token)
 dp = Dispatcher()
 
-# Множество для хранения забаненных пользователей
+
 banned_users = set()
-# Словарь для хранения количества предупреждений
+
 warnings = defaultdict(int)
-# Лимит предупреждений перед баном
+
 WARN_LIMIT = 3
 
 panel = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='Добавить в свой чат', url='https://t.me/asefs_bot?startgroup=iris&admin=change_info+restrict_members+delete_messages+pin_messages+invite_users')]
+    [InlineKeyboardButton(text='Добавить в свой чат', url='https://t.me/YOUR_bot?startgroup=YOUR&admin=change_info+restrict_members+delete_messages+pin_messages+invite_users')]
 ])
 
 async def get_username(chat_id: int, user_id: int) -> str:
@@ -48,11 +48,13 @@ async def welcome_message(message: types.Message):
 
 @dp.my_chat_member(ChatMemberUpdatedFilter(member_status_changed=ADMINISTRATOR))
 async def on_bot_became_admin(event: types.ChatMemberUpdated):
-    await event.answer(text="""Спасибо, что добавил меня в чат!
-                            Что я умею: /warn - предупреждение
-                            /unwarn - снятие предупреждения
-                            /ban - забанить пользователя
-                            /unban - разбанить""")
+    if event.new_chat_member.user.id == bot.id:
+        await event.answer(text="""Спасибо, что добавил меня в чат!
+Что я умею: 
+/warn - предупреждение
+/unwarn - снятие предупреждения
+/ban - забанить пользователя
+/unban - разбанить""")
 
 @dp.message(Command('warn'))
 async def warn_user(message: types.Message):
@@ -131,8 +133,6 @@ async def remove_warn(message: types.Message):
 
 @dp.message()
 async def handle_message(message: types.Message):
-
-#Удаление сообщений от забаненных пользователей
     if (message.from_user.id, message.chat.id) in banned_users:
         await message.delete()
 

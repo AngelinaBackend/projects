@@ -1,22 +1,23 @@
 import json
 import asyncio
 import logging
+import config
 from aiogram import Bot, Dispatcher, types, F, Router
 from aiogram.filters import Command
 from aiogram.types import CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from aiogram.client.session.aiohttp import AiohttpSession
+
 
 API_TOKEN = config.token
-session = AiohttpSession(proxy="http://proxy.server:3128")
+
 
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token=API_TOKEN, session=session)
+bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 router = Router()
 
-JSON_FILE = config.file
+JSON_FILE = "data.json"
 
 try:
     with open(JSON_FILE, 'r') as file:

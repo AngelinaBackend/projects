@@ -4,17 +4,16 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.filters.chat_member_updated import ChatMemberUpdatedFilter,  ADMINISTRATOR
-from aiogram.client.session.aiohttp import AiohttpSession
 
 
-session = AiohttpSession(proxy="http://proxy.server:3128")
+
 Token = config.token
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token=Token, session=session)
+bot = Bot(token=Token)
 dp = Dispatcher()
 
-panel = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Добавить в свой чат', url= 'https://t.me/sauhi_bot?startgroup=iris&admin=change_info+restrict_members+delete_messages+pin_messages+invite_users')]])
+panel = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Добавить в свой чат', url= 'https://t.me/YOUR_bot?startgroup=YOUR&admin=change_info+restrict_members+delete_messages+pin_messages+invite_users')]])
 
 @dp.message(Command('start'))
 async def welcome_message(message: types.Message):
