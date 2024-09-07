@@ -20,8 +20,8 @@
    
 Bash
 
-    git clone https://github.com/yourusername/your-repo.git
-    cd your-repo
+    git clone https://github.com/AngelinaBackend/projects.git
+    cd projects
     
 2. Установите необходимые пакеты:
    
